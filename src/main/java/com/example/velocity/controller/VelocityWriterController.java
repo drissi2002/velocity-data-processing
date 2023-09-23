@@ -3,20 +3,19 @@ package com.example.velocity.controller;
 import com.example.velocity.model.Country;
 import com.example.velocity.model.Field;
 import com.example.velocity.model.Product;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -108,39 +107,42 @@ public class VelocityWriterController {
     }
 
     @GetMapping("/get/countries")
-    public String getAllCountries() {
-        VelocityEngine velocityEngine = new VelocityEngine();
-        velocityEngine.init();
+    public String getAllCountries(){
+            VelocityEngine velocityEngine = new VelocityEngine();
+            velocityEngine.init();
 
-        // Load the Velocity template
-        Template template = velocityEngine.getTemplate("src/main/resources/templates/country.vm");
+            // Load the Velocity template
+            Template template = velocityEngine.getTemplate("src/main/resources/templates/country.vm");
 
-        VelocityContext context = new VelocityContext();
+            VelocityContext context = new VelocityContext();
 
-        // Create a RestTemplate instance
-        RestTemplate restTemplate = new RestTemplate();
+            // Create a RestTemplate instance
+            RestTemplate restTemplate = new RestTemplate();
 
         // Define the URL of the external API endpoint
-        String apiUrl = "http://192.168.34.135:7001/api/referential/countries";
+        String apiUrl = "http://localhost:8084/referential/countries";
 
         // Make an HTTP GET request to the API and get the response as an array of Country objects
         ResponseEntity<Country[]> responseEntity = restTemplate.getForEntity(apiUrl, Country[].class);
 
-        // Extract the labels from the API response and store them in a list
-        List<String> countryLabels = Arrays.stream(responseEntity.getBody())
-                .map(Country::getLabel)
-                .collect(Collectors.toList());
+        List<Country> countryList = Arrays.stream(responseEntity.getBody())
+                .map(data -> new Country(
+                        data.getId(),
+                        data.getCode(),
+                        data.getCode2(),
+                        data.getLabel(),
+                        data.getNationality()
+                )).collect(Collectors.toList());
 
         // Add the list of labels to the model to make it available in the Velocity template
-        context.put("countryLabels", countryLabels);
+            context.put("countries", countryList);
 
-        // Merge the template with the context and write the result to the StringWriter
-        StringWriter writer = new StringWriter();
+            // Merge the template with the context and write the result to the StringWriter
+            StringWriter writer = new StringWriter();
 
-        template.merge(context, writer);
+            template.merge(context, writer);
 
 
-        return writer.toString();
+            return writer.toString();
+        }
     }
-
-}

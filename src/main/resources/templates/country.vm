@@ -2,8 +2,8 @@
 "elementProps": {
 "placeholder": "Pays de destination",
 "disabled": false,
-"options": [#foreach($label in $countries)
-"$label"#if($foreach.hasNext),#end
+"options": [#foreach ($country in $countries)
+{"value":"$country.code","label":"$country.label"}#if($foreach.hasNext),#end
 #end]
 },
 "itemProps": {
