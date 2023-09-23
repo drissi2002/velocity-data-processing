@@ -1,10 +1,14 @@
+#set($apiUrl = "http://localhost:8084/referential/countries")
+#set($jsonToolClass = $tool.class.forName("com.example.velocity.config.JsonTool"))
+#set($jsonTool = $jsonToolClass.newInstance())
+#set($countries = $jsonTool.fetchDataFromApi($apiUrl))
 {
 "elementProps": {
 "placeholder": "Pays de destination",
 "disabled": false,
-"options": [#foreach ($country in $countries)
-{"value":"$country.code","label":"$country.label"}#if($foreach.hasNext),#end
-#end]
+"options": [
+#foreach ($country in $countries)
+{"value": "$country.code", "label": "$country.label"}#if($foreach.hasNext),#end#end]
 },
 "itemProps": {
 "name": "destinationCountry",

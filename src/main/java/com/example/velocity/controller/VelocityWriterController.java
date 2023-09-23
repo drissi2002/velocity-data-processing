@@ -1,5 +1,6 @@
 package com.example.velocity.controller;
 
+import com.example.velocity.config.JsonTool;
 import com.example.velocity.model.Country;
 import com.example.velocity.model.Field;
 import com.example.velocity.model.Product;
@@ -108,41 +109,59 @@ public class VelocityWriterController {
 
     @GetMapping("/get/countries")
     public String getAllCountries(){
-            VelocityEngine velocityEngine = new VelocityEngine();
-            velocityEngine.init();
+        VelocityEngine velocityEngine = new VelocityEngine();
+        velocityEngine.init();
 
-            // Load the Velocity template
-            Template template = velocityEngine.getTemplate("src/main/resources/templates/country.vm");
+//        // Load the Velocity template
+//        Template template = velocityEngine.getTemplate("src/main/resources/templates/country.vm");
+//
+//        VelocityContext context = new VelocityContext();
+//
+//        // Create a RestTemplate instance
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        // Define the URL of the external API endpoint
+//        String apiUrl = "http://localhost:8084/referential/countries";
+//
+//        // Make an HTTP GET request to the API and get the response as an array of Country objects
+//        ResponseEntity<Country[]> responseEntity = restTemplate.getForEntity(apiUrl, Country[].class);
+//
+//        List<Country> countryList = Arrays.stream(responseEntity.getBody())
+//                .map(data -> new Country(
+//                        data.getId(),
+//                        data.getCode(),
+//                        data.getCode2(),
+//                        data.getLabel(),
+//                        data.getNationality()
+//                )).collect(Collectors.toList());
+//
+//        // Add the list of labels to the model to make it available in the Velocity template
+//        context.put("countries", countryList);
+//
+//        // Merge the template with the context and write the result to the StringWriter
+//        StringWriter writer = new StringWriter();
+//
+//        template.merge(context, writer);
+//
+//
+//        return writer.toString();
 
-            VelocityContext context = new VelocityContext();
+        Template template = velocityEngine.getTemplate("src/main/resources/templates/country.vm");
 
-            // Create a RestTemplate instance
-            RestTemplate restTemplate = new RestTemplate();
+        VelocityContext context = new VelocityContext();
 
-        // Define the URL of the external API endpoint
-        String apiUrl = "http://localhost:8084/referential/countries";
+        // Initialize JsonTool
+        JsonTool jsonTool = new JsonTool();
 
-        // Make an HTTP GET request to the API and get the response as an array of Country objects
-        ResponseEntity<Country[]> responseEntity = restTemplate.getForEntity(apiUrl, Country[].class);
+        // Add jsonTool to the Velocity context
+        context.put("tool", jsonTool);
 
-        List<Country> countryList = Arrays.stream(responseEntity.getBody())
-                .map(data -> new Country(
-                        data.getId(),
-                        data.getCode(),
-                        data.getCode2(),
-                        data.getLabel(),
-                        data.getNationality()
-                )).collect(Collectors.toList());
+        StringWriter writer = new StringWriter();
 
-        // Add the list of labels to the model to make it available in the Velocity template
-            context.put("countries", countryList);
+        template.merge(context, writer);
 
-            // Merge the template with the context and write the result to the StringWriter
-            StringWriter writer = new StringWriter();
-
-            template.merge(context, writer);
+        return writer.toString();
 
 
-            return writer.toString();
         }
     }
