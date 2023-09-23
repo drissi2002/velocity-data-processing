@@ -1,0 +1,8 @@
+#set($condition = true)
+#set($value = "")
+#if($condition)
+    #set($value = "This is the value when the condition is true")
+#else
+    #set($value = "This is the value when the condition is false")
+#end
+${value}

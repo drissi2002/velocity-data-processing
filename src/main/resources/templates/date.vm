@@ -1,0 +1,2 @@
+#set($dateTool = $tool.date)
+Current Date: $dateTool.get("yyyy-MM-dd")

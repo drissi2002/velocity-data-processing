@@ -1,0 +1,25 @@
+package #if($!{packagename} != ${null})${packagename}#else nothing to display#end;
+
+public ${className} implements Serializable {
+
+/** Serial Version UID. */
+private static final long serialVersionUID = 1L;
+
+#foreach( $property in $properties )
+private ${property.fieldType} ${property.fieldName};
+#end
+
+#foreach( $property in $properties )
+    #set($firstLetter = $property.fieldName.substring(0, 1).toUpperCase())
+    #set($restOfTheString = $property.fieldName.substring(1))
+    #set($resultString = $firstLetter + $restOfTheString)
+
+public ${property.fieldType} get${resultString}() {
+return this.${property.fieldName};
+}
+
+public void set${resultString}(${property.fieldType} ${property.fieldName}) {
+this.${property.fieldName} = ${property.fieldName};
+}
+#end
+}

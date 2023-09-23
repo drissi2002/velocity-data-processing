@@ -1,0 +1,16 @@
+{
+"elementProps": {
+"placeholder": "Pays de destination",
+"disabled": false,
+"options": [#foreach($label in $countries)
+"$label"#if($foreach.hasNext),#end
+#end]
+},
+"itemProps": {
+"name": "destinationCountry",
+"label": "Pays de destination"
+},
+"element": "SELECT",
+"colWidth": 24,
+"value": ""
+}

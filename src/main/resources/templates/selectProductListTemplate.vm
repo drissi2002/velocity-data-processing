@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+<style>
+    /* Apply styles to the select element */
+    #productSelect {
+        width: 180px; /* Set the width of the select box */
+        padding: 10px; /* Add some padding for spacing */
+        border: 1px solid #ccc; /* Add a border */
+        border-radius: 5px; /* Add rounded corners */
+        font-size: 16px; /* Set the font size */
+        background-color: #fff; /* Set background color */
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Style the options within the select */
+    #productSelect option {
+        padding: 5px; /* Add padding for spacing between options */
+        font-size: 14px; /* Set the font size for options */
+        background-color: #fff; /* Set background color for options */
+        color: #333; /* Set text color for options */
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Style the label */
+    label {
+        font-weight: bold; /* Make the label text bold */
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Apply Montserrat font to buttons */
+    button, input[type="button"], input[type="submit"] {
+        font-family: 'Montserrat', sans-serif;
+        /* Add other button styles here */
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* Style the heading */
+    h1 {
+        font-family: 'Montserrat', sans-serif;
+        text-align: center;
+    }
+
+    /* Add other CSS rules for other elements as needed */
+
+    /* Add some spacing */
+    body {
+        margin: 20px;
+        font-family: 'Montserrat';
+    }
+</style>
+<head>
+    <title>Select List Example</title>
+</head>
+<body>
+<h1>Select List Example</h1>
+<form>
+    <label for="productSelect">Select a product:</label>
+    <select id="productSelect" name="productSelect">
+        #foreach ($product in $products)
+            <option value="$product.id">$product.name -$$product.price</option>
+        #end
+    </select>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>
