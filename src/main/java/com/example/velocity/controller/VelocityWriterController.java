@@ -1,23 +1,18 @@
 package com.example.velocity.controller;
 
-import com.example.velocity.config.JsonTool;
-import com.example.velocity.model.Country;
 import com.example.velocity.model.Field;
 import com.example.velocity.model.Product;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.tools.generic.DateTool;
+import org.apache.velocity.tools.generic.JsonTool;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.StringWriter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 public class VelocityWriterController {
@@ -150,11 +145,9 @@ public class VelocityWriterController {
 
         VelocityContext context = new VelocityContext();
 
-        // Initialize JsonTool
-        JsonTool jsonTool = new JsonTool();
-
-        // Add jsonTool to the Velocity context
-        context.put("tool", jsonTool);
+        // Add jsonTool and dateTool to the Velocity context
+        context.put("jsonTool", new JsonTool());
+        context.put("dateTool", new DateTool());
 
         StringWriter writer = new StringWriter();
 

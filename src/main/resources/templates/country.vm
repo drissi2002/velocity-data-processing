@@ -1,7 +1,6 @@
-#set($apiUrl = "http://localhost:8084/referential/countries")
-#set($jsonToolClass = $tool.class.forName("com.example.velocity.config.JsonTool"))
-#set($jsonTool = $jsonToolClass.newInstance())
-#set($countries = $jsonTool.fetchDataFromApi($apiUrl))
+#set($countries = $jsonTool.fetch("http://localhost:8084/referential/countries"))
+#set($currentDate = $dateTool.get("yyyy-MM-dd HH:mm:ss"))
+Current Date and Time: $currentDate
 {
 "elementProps": {
 "placeholder": "Pays de destination",
